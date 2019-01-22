@@ -22,10 +22,22 @@ def crop_detected_faces(file_path, cropped_file, faceCascade, notdetected):
         minSize=(100, 100),
         flags=cv2.CASCADE_SCALE_IMAGE
     )
+    #show the first cropped image
+    if (detected < 1):
+        cv2.imshow('image', img)
+        cv2.waitKey(0)
+
     # crop the image around the face in (w x h) size square and resize it
     for (x, y, w, h) in faces:
         print(faces)
         cropped_img = cv2.resize(img[y: y + h, x: x + w], (width, heigth))
+        #show the result of cropping for the first image
+        if (detected < 1):
+            cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            cv2.imshow('image', img)
+            cv2.imshow('cropped image', img[y: y + h, x: x + w])
+            cv2.imshow('cropped and resized image', cropped_img)
+            cv2.waitKey(0)
 
     cv2.imwrite(str(cropped_file), cropped_img)
 
